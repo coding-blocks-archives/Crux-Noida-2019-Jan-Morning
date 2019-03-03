@@ -36,12 +36,14 @@ public class NQueens {
 
     public static boolean isSafe(boolean[][] board, int row, int col) {
 
+        // directly up
         for (int r = 0; r < row; r++) {
             if (board[r][col]){
                 return false;
             }
         }
 
+        // diag left
         int left_step = Math.min(row, col);
         for (int i = 1; i <= left_step ; i++) {
             if (board[row-i][col-i]){
@@ -49,6 +51,7 @@ public class NQueens {
             }
         }
 
+        //diag right
         int right_step = Math.min(row, board.length - 1 - col);
         for (int i = 1; i <= right_step ; i++) {
             if (board[row-i][col+i]){

@@ -13,7 +13,10 @@ public class TreeClient {
 
         tree.add("35", 'l', 'r', 'r');
 
-        tree.display();
+//        tree.display();
+
+
+        System.out.println(tree.max());
 
     }
 }

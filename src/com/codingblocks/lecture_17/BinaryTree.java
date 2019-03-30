@@ -39,6 +39,31 @@ public class BinaryTree {
         display(node.right, indent + "\t", "right");
     }
 
+    public String max(){
+        return max(root);
+    }
+
+    private String max(Node node) {
+        if (node == null){
+            return null;
+        }
+
+        String max = node.value;
+
+        String left = max(node.left);
+        String right = max(node.right);
+
+        if (left != null && left.compareTo(max) > 0) {
+            max = left;
+        }
+
+        if (right != null && right.compareTo(max) > 0) {
+            max = right;
+        }
+
+        return max;
+    }
+
     private class Node{
         String value;
         Node left;

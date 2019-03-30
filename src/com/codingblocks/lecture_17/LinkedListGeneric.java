@@ -1,12 +1,12 @@
 package com.codingblocks.lecture_17;
 
-public class LinkedList {
+public class LinkedListGeneric <T> {
 
     private Node head;
     private Node tail;
     private int size;
 
-    public void insertFirst(String value){
+    public void insertFirst(T value){
         Node node = new Node(value, head);
         head = node;
 
@@ -17,7 +17,7 @@ public class LinkedList {
         size++;
     }
 
-    public void insertLast(String value){
+    public void insertLast(T value){
         if (size == 0){
             insertFirst(value);
             return;
@@ -30,12 +30,12 @@ public class LinkedList {
         size++;
     }
 
-    public String deleteFirst(){
+    public T deleteFirst(){
         if (size == 0){
             return null;
         }
 
-        String value = head.value;
+        T value = head.value;
         head = head.next;
         size--;
 
@@ -56,13 +56,13 @@ public class LinkedList {
         return node;
     }
 
-    public String deleteLast(){
+    public T deleteLast(){
         if (size < 2){
             return deleteFirst();
         }
 
         Node prev = get(size-2);
-        String value = tail.value;
+        T value = tail.value;
         prev.next = null;
         tail = prev;
 
@@ -71,7 +71,7 @@ public class LinkedList {
         return value;
     }
 
-    public void insert(int index, String value){
+    public void insert(int index, T value){
         if (index == 0){
             insertFirst(value);
         } else if(index == size){
@@ -86,44 +86,44 @@ public class LinkedList {
             size++;
         }
     }
+//
+//    public static LinkedListGeneric merge(LinkedListGeneric first, LinkedListGeneric second){
+//        LinkedListGeneric result = new LinkedListGeneric();
+//
+//        Node f = first.head;
+//        Node s = second.head;
+//
+//        while (f != null && s != null){
+//            if (f.value.compareTo(s.value) < 0){
+//                result.insertLast(f.value);
+//                f = f.next;
+//            } else {
+//                result.insertLast(s.value);
+//                s = s.next;
+//            }
+//        }
+//
+//        while (f != null){
+//            result.insertLast(f.value);
+//            f = f.next;
+//        }
+//
+//        while (s != null){
+//            result.insertLast(s.value);
+//            s = s.next;
+//        }
+//
+//        return result;
+//    }
 
-    public static LinkedList merge(LinkedList first, LinkedList second){
-        LinkedList result = new LinkedList();
-
-        Node f = first.head;
-        Node s = second.head;
-
-        while (f != null && s != null){
-            if (f.value.compareTo(s.value) < 0){
-                result.insertLast(f.value);
-                f = f.next;
-            } else {
-                result.insertLast(s.value);
-                s = s.next;
-            }
-        }
-
-        while (f != null){
-            result.insertLast(f.value);
-            f = f.next;
-        }
-
-        while (s != null){
-            result.insertLast(s.value);
-            s = s.next;
-        }
-
-        return result;
-    }
-
-    public String delete(int index){
+    public T delete(int index){
         if(index == 0){
             return deleteFirst();
         } else if(index == size-1){
             return deleteLast();
         } else {
             Node prev = get(index - 1);
-            String value = prev.next.value;
+            T value = prev.next.value;
             prev.next = prev.next.next;
             size--;
             return value;
@@ -142,14 +142,14 @@ public class LinkedList {
     }
 
     private class Node {
-        String value;
+        T value;
         Node next;
 
-        public Node(String value) {
+        public Node(T value) {
             this.value = value;
         }
 
-        public Node(String value, Node next) {
+        public Node(T value, Node next) {
             this.value = value;
             this.next = next;
         }

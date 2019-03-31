@@ -1,5 +1,7 @@
 package com.codingblocks.lecture_18;
 
+import java.util.Arrays;
+
 public class BinaryTreeGeneric <T extends Comparable<T>>{
 
     private Node root;
@@ -181,6 +183,37 @@ public class BinaryTreeGeneric <T extends Comparable<T>>{
         postorder(node.right);
         System.out.println(node.value);
 
+    }
+
+    public void fromPreIn(T[] pre, T[] in){
+        this.root = fromPreInRec(pre, in);
+    }
+
+    private Node fromPreInRec(T[] pre, T[] in) {
+        if (pre.length == 0){
+            return null;
+        }
+
+        T val = pre[0];
+
+        int i = 0;
+        for (i = 0; i < in.length; i++) {
+            if (val.compareTo(in[i]) == 0){
+                break;
+            }
+        }
+
+        T[] in_left = Arrays.copyOfRange(in, 0, i);
+        T[] in_right = Arrays.copyOfRange(in, i+1, in.length);
+
+        T[] pre_left = Arrays.copyOfRange(pre, 1, i+1);
+        T[] pre_right = Arrays.copyOfRange(pre, i+1, pre.length);
+
+        Node node = new Node(val);
+        node.left = fromPreInRec(pre_left, in_left);
+        node.right = fromPreInRec(pre_right, in_right);
+
+        return node;
     }
 
     private class Node{

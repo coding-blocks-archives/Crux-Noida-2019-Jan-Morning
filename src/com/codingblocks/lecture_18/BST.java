@@ -21,6 +21,8 @@ public class BST <T extends Comparable<T>> {
 
         node.height = Math.max(height(node.left), height(node.right)) + 1;
 
+        node = balancing(node);
+
         return node;
     }
 
@@ -113,6 +115,25 @@ public class BST <T extends Comparable<T>> {
 
         return x;
 
+    }
+
+    private Node balancing(Node node){
+
+        if ((height(node.left) - height(node.right)) > 1){
+            if ((height(node.left.left) - height(node.left.right)) < 0){
+                node.left = leftRotate(node.left);
+            }
+            node = rightRotate(node);
+        }
+
+        if ((height(node.left) - height(node.right)) < -1){
+            if ((height(node.right.left) - height(node.right.right)) > 0){
+                node.right = rightRotate(node.right);
+            }
+            node = leftRotate(node);
+        }
+
+        return node;
     }
 
     public void populateFromSorted(T[] sorted){

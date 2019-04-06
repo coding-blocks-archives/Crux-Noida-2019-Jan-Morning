@@ -79,6 +79,42 @@ public class BST <T extends Comparable<T>> {
 
     }
 
+    public void rightRotate(){
+        this.root = rightRotate(this.root);
+    }
+
+    public void leftRotate(){
+        this.root = leftRotate(this.root);
+    }
+
+    private Node rightRotate(Node x){
+        Node y = x.left;
+        Node t2 = y.right;
+
+        y.right = x;
+        x.left = t2;
+
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+
+        return y;
+
+    }
+
+    private Node leftRotate(Node y){
+        Node x = y.right;
+        Node t2 = x.left;
+
+        x.left = y;
+        y.right = t2;
+
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+
+        return x;
+
+    }
+
     public void populateFromSorted(T[] sorted){
         this.root = populateFromSorted(sorted, 0, sorted.length - 1);
     }

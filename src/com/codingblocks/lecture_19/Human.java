@@ -14,4 +14,7 @@ public class Human implements Comparable<Human> {
         return -(this.age - other.age);
     }
 
+    public String getName() {
+        return name;
+    }
 }

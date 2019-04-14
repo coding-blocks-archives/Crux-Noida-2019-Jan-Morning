@@ -3,7 +3,7 @@ package com.codingblocks.lecture_20;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class CustomHashTable<K, V> {
+public class CustomHashSet<K> {
 
     private ArrayList<LinkedList<Node>> array;
 
@@ -11,27 +11,26 @@ public class CustomHashTable<K, V> {
 
     private int size = 0;
 
-    public CustomHashTable(){
+    public CustomHashSet(){
         array = new ArrayList<>();
         for (int i = 0; i < DEFAULT_SIZE; i++) {
             array.add(new LinkedList<>());
         }
     }
 
-    public void put(K key, V value){
+    public void add(K key){
 
         int index = Math.abs(key.hashCode() % array.size());
         LinkedList<Node> list = array.get(index);
 
         for (Node node : list){
             if (node.key.equals(key)){
-                node.value = value;
                 return;
             }
         }
 
         size++;
-        list.add(new Node(key, value));
+        list.add(new Node(key));
 
         if ((((float)size)/array.size()) > .5){
             rehash();
@@ -49,25 +48,25 @@ public class CustomHashTable<K, V> {
 
         for (LinkedList<Node> list : old){
             for (Node node : list){
-                put(node.key, node.value);
+                add(node.key);
             }
         }
     }
 
-    public V get(K key){
+    public boolean contains(K key){
         int index = Math.abs(key.hashCode() % array.size());
         LinkedList<Node> list = array.get(index);
 
         for (Node node: list) {
             if (node.key.equals(key)){
-                return node.value;
+                return true;
             }
         }
 
-        return null;
+        return false;
     }
 
-    public V remove(K key){
+    public boolean remove(K key){
         int index = Math.abs(key.hashCode() % array.size());
         LinkedList<Node> list = array.get(index);
 
@@ -80,21 +79,19 @@ public class CustomHashTable<K, V> {
         }
 
         if (target == null){
-            return null;
+            return false;
         }
 
         size--;
         list.remove(target);
-        return target.value;
+        return true;
     }
 
     private class Node {
         K key;
-        V value;
 
-        public Node(K key, V value) {
+        public Node(K key) {
             this.key = key;
-            this.value = value;
         }
     }
 }

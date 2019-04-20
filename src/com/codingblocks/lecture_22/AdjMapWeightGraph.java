@@ -83,6 +83,81 @@ public class AdjMapWeightGraph<E> {
         }
     }
 
+    public Integer kruskal(){
+        ArrayList<Edge> list = new ArrayList<>();
+        for (Vertex start : vertices.values()) {
+            for (Vertex end : start.neighbours.values()) {
+                Integer weight = start.weights.get(end.value);
+                list.add(new Edge(start, end, weight));
+            }
+        }
+
+        Collections.sort(list, new Comparator<Edge>() {
+            @Override
+            public int compare(Edge o1, Edge o2) {
+                return o1.weight - o2.weight;
+            }
+        });
+
+        Map<Vertex, Vertex> parents = generateParents();
+
+        int total = 0;
+
+        for (Edge edge : list) {
+            if (union(edge.start, edge.end, parents)){
+                total += edge.weight;
+            }
+        }
+
+        return total;
+    }
+
+    public int prims(){
+
+        Vertex start = vertices.values().iterator().next();
+        Set<Vertex> visited = new HashSet<>();
+
+        PriorityQueue<Edge> queue = new PriorityQueue<>((o1, o2) -> o1.weight - o2.weight);
+
+        visited.add(start);
+        for (Vertex end : start.neighbours.values()){
+            int weight = start.weights.get(end.value);
+            queue.add(new Edge(start, end, weight));
+        }
+
+        int total = 0;
+
+        while (!queue.isEmpty()){
+            Edge edge = queue.remove();
+            if (!visited.contains(edge.end)){
+                total += edge.weight;
+                visited.add(edge.end);
+
+                Vertex temp_s = edge.end;
+                for (Vertex temp_e: temp_s.neighbours.values()) {
+                    if (!visited.contains(temp_e)){
+                        int weight = temp_s.weights.get(temp_e.value);
+                        queue.add(new Edge(temp_s, temp_e, weight));
+                    }
+                }
+            }
+        }
+
+        return total;
+    }
+
+    private class Edge {
+        private Vertex start;
+        private Vertex end;
+        private Integer weight;
+
+        public Edge(Vertex start, Vertex end, Integer weight) {
+            this.start = start;
+            this.end = end;
+            this.weight = weight;
+        }
+    }
+
 
     private class Vertex {
         E value;
